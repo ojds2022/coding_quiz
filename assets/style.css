@@ -36,7 +36,7 @@ button:hover {
     cursor: pointer;
 }
 
-#timer_container {
+#timer_container { /* styles the timer container */
     display: flex;
     flex-direction: row;
     font-size: 1.5em;
@@ -59,7 +59,7 @@ button:hover {
     margin: 1em auto;
 }
 
-#startBtn {
+#startBtn { /* styles the start button */
     background-color: mediumseagreen;
 }
 
@@ -69,47 +69,50 @@ button:hover {
 
 /* quiz page styles */
 
-#timer {
+#timer { /* adds margin to the left of the seconds on the timer */
     margin-left: 6px;
 }
 
-#questions {
+#questions { /* styles the question container */
     width: 70%;
     margin: 1em auto;
 }
 
-#answer_btns_container {
+#answer_btns_container { /* styles the answer buttons container */
     display: flex;
     flex-direction: column;
 }
 
-.btn_container {
+.btn_container { /* styles the individual answer button containers */
     display: flex;
     flex-direction: row;
     margin: 1em auto;
 }
 
-#answer_btns_container button {
+.answerBtn { /* styles the answer buttons */
+    background-color: hotpink;
     width: 100px;
     margin-right: 1em;
 }
 
-.button {
-    background-color: hotpink;
-}
-
-.button:hover {
+.answerBtn:hover {
     background-color: lightpink;
 }
 
-.firstBtnCorrect, .secBtnCorrect, .thirdBtnCorrect, .fourthBtnCorrect {
+.firstBtnCorrect,
+.secBtnCorrect,
+.thirdBtnCorrect,
+.fourthBtnCorrect { /* styles the green check when an answer is correct */
     color: springgreen;
     display: none;
     margin: auto;
     font-size: 2em;
 }
 
-.firstBtnWrong, .secBtnWrong, .thirdBtnWrong, .fourthBtnWrong {
+.firstBtnWrong,
+.secBtnWrong,
+.thirdBtnWrong,
+.fourthBtnWrong { /* styles the red x when an answer is incorrect */
     color: crimson;
     display: none;
     margin: auto;
