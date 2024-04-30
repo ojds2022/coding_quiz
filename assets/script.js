@@ -1,6 +1,6 @@
 const timer = document.getElementById('timer');
-let timerSeconds = 60;
 const displayQuestions = document.getElementById('questions');
+let timerSeconds = 60; // var that sets the seconds on the timer
 
 const firstBtn = document.getElementById('firstBtn');
 const secondBtn = document.getElementById('secondBtn');
@@ -17,7 +17,7 @@ const secBtnWrong = document.querySelector('.secBtnWrong');
 const thirdBtnWrong = document.querySelector('.thirdBtnWrong');
 const fourthBtnWrong = document.querySelector('.fourthBtnWrong');
 
-const questions = [
+const questions = [ // array of questions and their answers
     {questionNum: 1, question: 'Which data type in JavaScript represents a seqence of characters enclosed in single or double quotes?', answer: 'String'},
     {questionNum: 2, question: `Which variable declaration cannot be changed or reassigned?`, answer: 'const'},
     {questionNum: 3, question: `Which data type in JavaScript represents a variable that has been declared but not assigned a value, or a property that doesn't exist?`, answer: 'Undefined'},
@@ -30,11 +30,11 @@ const questions = [
     {questionNum: 10, question: `What keyword is used to return a value from a function in JavaScript?`, answer: 'return'}
 ];
 
-let questionsAsked = [];
-let randomButtonsArray = [];
-let i = 0;
-let userScore = 0;
-let highScoresArray = JSON.parse(localStorage.getItem('highScoresArray')); // Retrieve the existing array from localStorage
+let questionsAsked = []; // empty array that gets populated by questions that are given so that we can ensure that they don't repeat
+let randomButtonsArray = []; // empty array that gets populated by the random buttons that a user clicks and allows us to check if they are correct
+let i = 0; // iteration var that's used in the isButtonCorrect function
+let userScore = 0; // var that sets a user's score initially to 0
+let highScoresArray = JSON.parse(localStorage.getItem('highScoresArray')); // retrieves the existing highScoresArray array from localStorage
 
 // function timerSeconds(btnClicked) {
 //     let seconds = 60;
@@ -45,7 +45,7 @@ let highScoresArray = JSON.parse(localStorage.getItem('highScoresArray')); // Re
 //     }
 // };
 
-function quizTimer(seconds) {
+function quizTimer(seconds) { // fuctionality for the quiz timer
     timer.innerText = seconds;
 
     let intervalId = setInterval(() => {
@@ -55,7 +55,7 @@ function quizTimer(seconds) {
                 highScoresArray = [];
             }
     
-            highScoresArray.push(' ' + userScore); // Push the new userScore value into the array
+            highScoresArray.push(' ' + userScore); // Pushs the new userScore value into the array
     
             let updatedArrayString = JSON.stringify(highScoresArray); // Stringify the updated array
     
@@ -63,7 +63,6 @@ function quizTimer(seconds) {
             
             clearInterval(intervalId); // Stops the countdown when it reaches zero
             window.location.href = 'endPage.html'; // Navigates users to the last page when the countdown reaches zero
-            console.log(userScore);
             return;
         } else {
             timer.innerText = seconds;
@@ -74,14 +73,14 @@ function quizTimer(seconds) {
 
 quizTimer(timerSeconds);
 
-function randQuestGen(randBtn) {
-    if (questionsAsked.length === questions.length) {
+function randQuestGen(randBtn) { // functionality for generating a random question
+    if (questionsAsked.length === questions.length) { // if all the questions have been displayed
 
         if (!highScoresArray) { // If there's no existing array, create an empty one
             highScoresArray = [];
         }
 
-        highScoresArray.push(' ' + userScore); // Push the new userScore value into the array
+        highScoresArray.push(' ' + userScore); // Pushs the new userScore value into the array
 
         let updatedArrayString = JSON.stringify(highScoresArray); // Stringify the updated array
 
@@ -96,13 +95,13 @@ function randQuestGen(randBtn) {
     let thirdRandNum = Math.floor(Math.random() * 10);
     let fourthRandNum = Math.floor(Math.random() * 10);
 
-    while (questionsAsked.includes(randNum)) {
+    while (questionsAsked.includes(randNum)) { // if an item in the questionsAsked array has an idex that is equal to the random number generated, generate a new random number
         randNum = Math.floor(Math.random() * 10);
     }
-    displayQuestions.innerHTML = questions[randNum].question;
-    questionsAsked.push(randNum);
+    displayQuestions.innerHTML = questions[randNum].question; // display the question with an idex of the random number
+    questionsAsked.push(randNum); // add that question to the questionsAsked array so that we can check if it has been asked already
 
-    while (secondRandNum === randNum || secondRandNum === thirdRandNum || secondRandNum === fourthRandNum) {
+    while (secondRandNum === randNum || secondRandNum === thirdRandNum || secondRandNum === fourthRandNum) { // ensures that the answer buttons don't have any repeats
         secondRandNum = Math.floor(Math.random() * 10);
     }
     while (thirdRandNum === randNum || thirdRandNum === secondRandNum || thirdRandNum === fourthRandNum) {
@@ -135,7 +134,7 @@ function randQuestGen(randBtn) {
     }
 }
 
-function isBtnCorrect(btnClicked, randomButtonsArray) {
+function isBtnCorrect(btnClicked, randomButtonsArray) { // functionality for if a button is correct or not
     i++;
     if (btnClicked === randomButtonsArray[i-1]) {
         showCorrectAnswer(btnClicked);
@@ -143,18 +142,16 @@ function isBtnCorrect(btnClicked, randomButtonsArray) {
         localStorage.setItem('userScore', userScore); // Saves userScore to local storage
     } else {
         showWrongAnswer(btnClicked);
-        
-        //timer.innerText = timerSeconds;
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => { // runs the randQuestGen function when the quiz is initially started
     let randBtn = Math.ceil(Math.random() * 4);
     randomButtonsArray.push(randBtn);
     randQuestGen(randBtn);
 });
 
-firstBtn.addEventListener('click', () => {
+firstBtn.addEventListener('click', () => { // event listener for when the first button is clicked
     const btnClicked = 1;
     isBtnCorrect(btnClicked, randomButtonsArray);
     let randBtn = Math.ceil(Math.random() * 4);
@@ -162,7 +159,7 @@ firstBtn.addEventListener('click', () => {
     randQuestGen(randBtn);
 });
 
-secondBtn.addEventListener('click', () => {
+secondBtn.addEventListener('click', () => { // event listener for when the second button is clicked
     const btnClicked = 2;
     isBtnCorrect(btnClicked, randomButtonsArray);
     let randBtn = Math.ceil(Math.random() * 4);
@@ -170,7 +167,7 @@ secondBtn.addEventListener('click', () => {
     randQuestGen(randBtn);
 });
 
-thirdBtn.addEventListener('click', () => {
+thirdBtn.addEventListener('click', () => { // event listener for when the third button is clicked
     const btnClicked = 3;
     isBtnCorrect(btnClicked, randomButtonsArray);
     let randBtn = Math.ceil(Math.random() * 4);
@@ -178,7 +175,7 @@ thirdBtn.addEventListener('click', () => {
     randQuestGen(randBtn);
 });
 
-fourthBtn.addEventListener('click', () => {
+fourthBtn.addEventListener('click', () => { // event listener for when the fourth button is clicked
     const btnClicked = 4;
     isBtnCorrect(btnClicked, randomButtonsArray);
     let randBtn = Math.ceil(Math.random() * 4);
@@ -186,53 +183,51 @@ fourthBtn.addEventListener('click', () => {
     randQuestGen(randBtn);
 });
 
-// Show correct answer
-function showCorrectAnswer(correctAnswer) {
+function showCorrectAnswer(correctAnswer) { // functionality for when a question is answered correctly
     if (correctAnswer === 1) {
-        firstBtnCorrect.style.display = 'block'; // Display the correct answer
+        firstBtnCorrect.style.display = 'block'; // Display the green check
         setTimeout(function() {
-            firstBtnCorrect.style.display = 'none'; // Hide the correct answer after one second
+            firstBtnCorrect.style.display = 'none'; // Hide the green check after half a second
         }, 500); // 500 milliseconds = 0.5 seconds
     } else if (correctAnswer === 2) {
-         secBtnCorrect.style.display = 'block'; // Display the correct answer
+         secBtnCorrect.style.display = 'block';
          setTimeout(function() {
-             secBtnCorrect.style.display = 'none'; // Hide the correct answer after one second
-         }, 500); // 500 milliseconds = 0.5 seconds
+             secBtnCorrect.style.display = 'none';
+         }, 500);
     } else if (correctAnswer === 3) {
-        thirdBtnCorrect.style.display = 'block'; // Display the correct answer
+        thirdBtnCorrect.style.display = 'block';
         setTimeout(function() {
-            thirdBtnCorrect.style.display = 'none'; // Hide the correct answer after one second
-        }, 500); // 500 milliseconds = 0.5 seconds
+            thirdBtnCorrect.style.display = 'none';
+        }, 500);
    } else if (correctAnswer === 4) {
-        fourthBtnCorrect.style.display = 'block'; // Display the correct answer
+        fourthBtnCorrect.style.display = 'block';
         setTimeout(function() {
-            fourthBtnCorrect.style.display = 'none'; // Hide the correct answer after one second
-        }, 500); // 500 milliseconds = 0.5 seconds
+            fourthBtnCorrect.style.display = 'none';
+        }, 500);
     }
     
 }
 
-// Show wrong answer
-function showWrongAnswer(wrongAnswer) {
+function showWrongAnswer(wrongAnswer) { // functionality for when a question is answered incorrectly
     if (wrongAnswer === 1) {
-        firstBtnWrong.style.display = 'block'; // Display the correct answer
+        firstBtnWrong.style.display = 'block'; // Display the red x
         setTimeout(function() {
-            firstBtnWrong.style.display = 'none'; // Hide the correct answer after one second
+            firstBtnWrong.style.display = 'none'; // Hide the red x after half a second
         }, 500); // 500 milliseconds = 0.5 seconds
     } else if (wrongAnswer === 2) {
-        secBtnWrong.style.display = 'block'; // Display the correct answer
+        secBtnWrong.style.display = 'block';
         setTimeout(function() {
-            secBtnWrong.style.display = 'none'; // Hide the correct answer after one second
-        }, 500); // 500 milliseconds = 0.5 seconds
+            secBtnWrong.style.display = 'none';
+        }, 500);
     } else if (wrongAnswer === 3) {
-        thirdBtnWrong.style.display = 'block'; // Display the correct answer
+        thirdBtnWrong.style.display = 'block';
         setTimeout(function() {
-            thirdBtnWrong.style.display = 'none'; // Hide the correct answer after one second
-        }, 500); // 500 milliseconds = 0.5 seconds
+            thirdBtnWrong.style.display = 'none';
+        }, 500);
     } else if (wrongAnswer === 4) {
-        fourthBtnWrong.style.display = 'block'; // Display the correct answer
+        fourthBtnWrong.style.display = 'block';
         setTimeout(function() {
-            fourthBtnWrong.style.display = 'none'; // Hide the correct answer after one second
-        }, 500); // 500 milliseconds = 0.5 seconds
+            fourthBtnWrong.style.display = 'none';
+        }, 500);
     }
 }
